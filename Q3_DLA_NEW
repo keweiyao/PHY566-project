@@ -94,7 +94,7 @@ def rand_point_on_circle():
 		y=-1*y
 	elif rand > 0.5:
 		y=1*y
-	#print "x,y:",x,y
+	#print"x,y:",x,y
 
         radius=math.sqrt(x**2+y**2)
         #print "radius: ",radius
