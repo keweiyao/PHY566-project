@@ -58,7 +58,8 @@ def radius(walker):
 def check_perimeter(condition,walker,perimeter,cluster,cluster_rad):
 	for i, per in enumerate(perimeter):
         	#if walker[0] == per[0] and walker[1] == per[1]:
-                if walker[0]+100 == per[0] and walker[1]+100 == per[1]:
+                #if walker[0]+100 == per[0] and walker[1]+100 == per[1]:
+		if walker[0]+102 == per[0] and walker[1]+102 == per[1]:
 			cluster[per[0]][per[1]]=1
                         perimeter.pop(i)
 			cluster_rad.append(r_walker)
@@ -116,8 +117,9 @@ def rand_point_on_circle():
 
 #print "DECLARE VARIABLES"
 # Declare variables
-cluster=np.zeros((int(2*(start_radius)+1),int(2*(start_radius)+1)))
-cluster[100][100]=1
+cluster=np.zeros((int(2*(start_radius)+3),int(2*(start_radius)+3)))
+#cluster[100][100]=1
+cluster[102][102]
 #cluster_x=[]
 #cluster_x.append(100)
 #cluster_y=[]
@@ -132,15 +134,19 @@ R=0
 
 #print "Going into perimeter:"
 perimeter=[]
-perimeter.append((100,99))
-perimeter.append((100,101))
-perimeter.append((99,100))
-perimeter.append((101,100))
+perimeter.append((102,101))
+perimeter.append((101,103))
+perimeter.append((101,102))
+perimeter.append((103,102))
+#perimeter.append((100,99))
+#perimeter.append((100,101))
+#perimeter.append((99,100))
+#perimeter.append((101,100))
 #perimeter=find_perimeter(cluster)
 #print perimeter
 count=0
 #print "Entering while loop...."
-while R <= 75:
+while R <= 100:
         count+=1
         #perimeter=find_perimeter(cluster)
         print "Walkers generated: ",count
@@ -172,10 +178,14 @@ while R <= 75:
 
 
 
-
+f=open("cluster_data.txt",'w')
+f.write('# Cluster Data')
+f.write(cluster)
+f.close()
 cmap=matplotlib.colors.ListedColormap(['white','blue'])
 bounds=[-.5,.5,1.5]
 norm = matplotlib.colors.BoundaryNorm(bounds,cmap.N)
 img= plt.imshow(cluster,interpolation='nearest',cmap=cmap,norm=norm)
+savefig("DLA_crystal1.pdf")
 plt.show()
 
