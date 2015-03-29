@@ -90,8 +90,18 @@ def check_perimeter(condition,walker,perimeter,cluster):
 def rand_point_on_circle():
         x=round(random.uniform(-100,100),0)
         y=round(math.sqrt(start_radius**2.0-x**2.0))
+<<<<<<< Updated upstream
         #print "x,y:",x,y
 # coin toss for two y options:
+=======
+        rand=random.uniform(0,1)
+	if rand <= 0.5:
+		y=-1*y
+	elif rand > 0.5:
+		y=1*y
+	#print "x,y:",x,y
+
+>>>>>>> Stashed changes
         radius=math.sqrt(x**2+y**2)
         #print "radius: ",radius
         walker=np.zeros(2)
