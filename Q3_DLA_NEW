@@ -1,0 +1,165 @@
+#!/usr/bin/env python
+
+# Import libraries
+from pylab import *
+import numpy as np
+import random
+import math
+
+# Parameters of code
+start_radius=100
+out_of_bounds=120
+
+# Define functions
+#def find_perimeter(cluster):
+#       perimeter=[]
+#       i_index=0
+#       for i in range(-start_radius,start_radius):
+#               #i_index=0
+#               j_index=0
+#               for j in range(-start_radius,start_radius):
+#                       #j_index=0
+#                       if cluster[i_index][j_index]==1:
+#                               #print "found origin"
+#                               #print "indices:",i_index,j_index
+#                               anew_site=np.zeros(2)
+#                               anew_site[0]=i_index+1
+#                               anew_site[1]=j_index
+#                               #print "new_site:",anew_site
+#                               if cluster[i_index+1][j_index] != 1:
+#                               #       print "cond1,new_site:",anew_site
+#                                       perimeter.append(anew_site)
+#                               #       print "perimeter:",perimeter
+#                               bnew_site=np.zeros(2)
+#                               bnew_site[0]=i_index-1
+ #                               bnew_site[1]=j_index
+  #                              if cluster[i_index-1][j_index] != 1:
+#                               #       print "cond2,new_site:",bnew_site
+#                                       perimeter.append(bnew_site)
+#                               #       print "perimeter:",perimeter
+#                               cnew_site=np.zeros(2)
+ #                               cnew_site[0]=i_index
+ #                               cnew_site[1]=j_index+1
+  #                              if cluster[i_index][j_index+1] != 1:
+#                               #       print "cond3,new_site:",cnew_site
+#                                       perimeter.append(cnew_site)
+#                               #       print "perimeter:",perimeter
+#                       j_index+=1
+#               i_index+=1
+#       return perimeter
+
+
+
+def radius(walker):
+        return math.sqrt((walker[0]-100)**2+(walker[1]-100)**2)
+
+def check_perimeter(condition,walker,perimeter,cluster):
+        r_walker=radius(walker)
+        if r_walker >= out_of_bounds:
+                        condition='exile'
+        else:
+                for i, per in enumerate(perimeter):
+                        if walker[0] == per[0] and walker[1] == per[1]:
+                                cluster[per[0]][per[1]]=1
+                                perimeter.pop(i)
+                                print "HIT (per[0],per[1]):",per[0],per[1]
+                                anew_site=np.zeros(2)
+                                anew_site[0]=per[0]+1
+                                anew_site[1]=per[1]
+                                if cluster[per[0]+1][per[1]] != 1:
+                                       perimeter.append(anew_site)
+                                bnew_site=np.zeros(2)
+                                bnew_site[0]=per[0]-1
+                                bnew_site[1]=per[1]
+                                if cluster[per[0]-1][per[1]] != 1:
+                                       perimeter.append(bnew_site)
+                                cnew_site=np.zeros(2)
+                                cnew_site[0]=per[0]
+                                cnew_site[1]=per[1]+1
+                                if cluster[per[0]][per[1]+1] != 1:
+                                       perimeter.append(cnew_site)
+                                dnew_site=np.zeros(2)
+                                dnew_site[0]=per[0]
+                                dnew_site[1]=per[1]-1
+                                if cluster[per[0]][per[1]-1] != 1:
+                                       perimeter.append(dnew_site)
+                                                                       condition='hit'
+                                break
+        return condition,cluster
+
+def rand_point_on_circle():
+        x=round(random.uniform(-100,100),0)
+        y=round(math.sqrt(start_radius**2.0-x**2.0))
+        #print "x,y:",x,y
+
+        radius=math.sqrt(x**2+y**2)
+        #print "radius: ",radius
+        walker=np.zeros(2)
+        walker[0]=x
+        walker[1]=y
+        return walker
+#walker=rand_point_on_circle()
+#print "prime:", x_prime, y_prime
+#print walker
+
+
+##########
+
+#print "DECLARE VARIABLES"
+# Declare variables
+cluster=np.zeros((int(2*(start_radius)+1),int(2*(start_radius)+1)))
+cluster[100][100]=1
+#print cluster
+
+
+# Loop over random walkers until the cluster radius, r, is 100 
+R=0
+#print "Going into perimeter:"
+perimeter=[]
+perimeter.append((100,99))
+perimeter.append((100,101))
+perimeter.append((99,100))
+perimeter.append((101,100))
+#perimeter=find_perimeter(cluster)
+#print perimeter
+count=0
+#print "Entering while loop...."
+while R <= 100:
+        count+=1
+        #perimeter=find_perimeter(cluster)
+        print "Walkers generated: ",count
+                #print "Radius R:",R
+        #if condition == "exile" or condition == '':
+        walker=rand_point_on_circle()
+        condition=''
+        while condition != 'exile' or condition != 'hit':
+                rand_num=random.uniform(0,1)
+                if rand_num <=0.25:
+                        walker[0]+=1
+                elif rand_num > 0.25 and rand_num <= 0.50:
+                        walker[0]-=1
+                elif rand_num >0.50 and rand_num <= 0.75:
+                        walker[1]+=1
+                elif rand_num >0.75:
+                        walker[1]-=1
+
+                # Check perimeter sites
+                r_walker=radius(walker)
+
+                condition,cluster=check_perimeter(condition,walker,perimeter,cluster)
+                if condition == 'exile':
+                        break
+                elif condition == 'hit':
+                        R=radius(walker)
+                        print "RADIUS=",R
+                        break
+
+
+
+
+cmap=matplotlib.colors.ListedColormap(['white','blue'])
+bounds=[-.5,.5,1.5]
+norm = matplotlib.colors.BoundaryNorm(bounds,cmap.N)
+img= plt.imshow(cluster,interpolation='nearest',cmap=cmap,norm=norm)
+plt.show()
+
