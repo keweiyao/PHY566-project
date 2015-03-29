@@ -54,39 +54,35 @@ def radius(walker):
         return math.sqrt((walker[0]-100)**2+(walker[1]-100)**2)
 
 def check_perimeter(condition,walker,perimeter,cluster,cluster_rad):
-        r_walker=radius(walker)
-        if r_walker >= out_of_bounds:
-                        condition='exile'
-        else:
-                for i, per in enumerate(perimeter):
-                        if walker[0] == per[0] and walker[1] == per[1]:
-                                cluster[per[0]][per[1]]=1
-                                perimeter.pop(i)
-				cluster_rad.append(r_walker)
-                                print "HIT (per[0],per[1]):",per[0],per[1]
-                                anew_site=np.zeros(2)
-                                anew_site[0]=per[0]+1
-                                anew_site[1]=per[1]
-                                if cluster[per[0]+1][per[1]] != 1:
-                                       perimeter.append(anew_site)
-                                bnew_site=np.zeros(2)
-                                bnew_site[0]=per[0]-1
-                                bnew_site[1]=per[1]
-                                if cluster[per[0]-1][per[1]] != 1:
-                                       perimeter.append(bnew_site)
-                                cnew_site=np.zeros(2)
-                                cnew_site[0]=per[0]
-                                cnew_site[1]=per[1]+1
-                                if cluster[per[0]][per[1]+1] != 1:
-                                       perimeter.append(cnew_site)
-                                dnew_site=np.zeros(2)
-                                dnew_site[0]=per[0]
-                                dnew_site[1]=per[1]-1
-                                if cluster[per[0]][per[1]-1] != 1:
-                                       perimeter.append(dnew_site)
-                                condition='hit'
-                                break
-        return condition,cluster
+	for i, per in enumerate(perimeter):
+        	if walker[0] == per[0] and walker[1] == per[1]:
+                	cluster[per[0]][per[1]]=1
+                        perimeter.pop(i)
+			cluster_rad.append(r_walker)
+                        print "HIT (per[0],per[1]):",per[0],per[1]
+                        anew_site=np.zeros(2)
+                        anew_site[0]=per[0]+1
+                        anew_site[1]=per[1]
+                        if cluster[per[0]+1][per[1]] != 1:
+                                perimeter.append(anew_site)
+                        bnew_site=np.zeros(2)
+                        bnew_site[0]=per[0]-1
+                        bnew_site[1]=per[1]
+                        if cluster[per[0]-1][per[1]] != 1:
+                                perimeter.append(bnew_site)
+                        cnew_site=np.zeros(2)
+                        cnew_site[0]=per[0]
+                        cnew_site[1]=per[1]+1
+                        if cluster[per[0]][per[1]+1] != 1:
+                                perimeter.append(cnew_site)
+                        dnew_site=np.zeros(2)
+                        dnew_site[0]=per[0]
+                        dnew_site[1]=per[1]-1
+                        if cluster[per[0]][per[1]-1] != 1:
+                                perimeter.append(dnew_site)
+                        condition='hit'
+                        break
+	return condition,cluster
 
 def rand_point_on_circle():
         x=round(random.uniform(-100,100),0)
@@ -147,7 +143,7 @@ while R <= 40:
         #if condition == "exile" or condition == '':
         walker=rand_point_on_circle()
         condition=''
-        while condition != 'exile' or condition != 'hit':
+        while condition != 'hit':
                 rand_num=random.uniform(0,1)
                 if rand_num <=0.25:
                         walker[0]+=1
@@ -160,9 +156,9 @@ while R <= 40:
 
                 # Check perimeter sites
                 r_walker=radius(walker)
-	        if r_walker <= max(cluster_rad)+5:
+		if r_walker <= max(cluster_rad)+5:
 			condition,cluster=check_perimeter(condition,walker,perimeter,cluster,cluster_rad)
-                if condition == 'exile':
+		if r_walker >= out_of_bounds:
                         break
                 elif condition == 'hit':
                         R=radius(walker)
