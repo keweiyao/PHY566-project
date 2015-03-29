@@ -83,7 +83,7 @@ def check_perimeter(condition,walker,perimeter,cluster):
                                 dnew_site[1]=per[1]-1
                                 if cluster[per[0]][per[1]-1] != 1:
                                        perimeter.append(dnew_site)
-                                                                       condition='hit'
+                                condition='hit'
                                 break
         return condition,cluster
 
