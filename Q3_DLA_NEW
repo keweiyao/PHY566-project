@@ -160,7 +160,7 @@ while R <= 40:
 
                 # Check perimeter sites
                 r_walker=radius(walker)
-	        if r_walker <= max(cluster_rad)+5:
+	        if r_walker <= max(cluster_rad)+5 or r_walker >= out_of_bounds:
 			condition,cluster=check_perimeter(condition,walker,perimeter,cluster,cluster_rad)
                 if condition == 'exile':
                         break
