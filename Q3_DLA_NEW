@@ -53,7 +53,7 @@ out_of_bounds=120
 def radius(walker):
         return math.sqrt((walker[0]-100)**2+(walker[1]-100)**2)
 
-def check_perimeter(condition,walker,perimeter,cluster):
+def check_perimeter(condition,walker,perimeter,cluster,cluster_rad):
         r_walker=radius(walker)
         if r_walker >= out_of_bounds:
                         condition='exile'
@@ -62,6 +62,7 @@ def check_perimeter(condition,walker,perimeter,cluster):
                         if walker[0] == per[0] and walker[1] == per[1]:
                                 cluster[per[0]][per[1]]=1
                                 perimeter.pop(i)
+				cluster_rad.append(r_walker)
                                 print "HIT (per[0],per[1]):",per[0],per[1]
                                 anew_site=np.zeros(2)
                                 anew_site[0]=per[0]+1
@@ -90,10 +91,8 @@ def check_perimeter(condition,walker,perimeter,cluster):
 def rand_point_on_circle():
         x=round(random.uniform(-100,100),0)
         y=round(math.sqrt(start_radius**2.0-x**2.0))
-<<<<<<< Updated upstream
         #print "x,y:",x,y
-# coin toss for two y options:
-=======
+	# coin toss for two y options:
         rand=random.uniform(0,1)
 	if rand <= 0.5:
 		y=-1*y
@@ -101,7 +100,6 @@ def rand_point_on_circle():
 		y=1*y
 	#print "x,y:",x,y
 
->>>>>>> Stashed changes
         radius=math.sqrt(x**2+y**2)
         #print "radius: ",radius
         walker=np.zeros(2)
@@ -119,11 +117,18 @@ def rand_point_on_circle():
 # Declare variables
 cluster=np.zeros((int(2*(start_radius)+1),int(2*(start_radius)+1)))
 cluster[100][100]=1
+#cluster_x=[]
+#cluster_x.append(100)
+#cluster_y=[]
+#cluster_y.append(100)
+cluster_rad=[]
+cluster_rad.append(0)
 #print cluster
 
 
 # Loop over random walkers until the cluster radius, r, is 100 
 R=0
+
 #print "Going into perimeter:"
 perimeter=[]
 perimeter.append((100,99))
@@ -134,7 +139,7 @@ perimeter.append((101,100))
 #print perimeter
 count=0
 #print "Entering while loop...."
-while R <= 100:
+while R <= 40:
         count+=1
         #perimeter=find_perimeter(cluster)
         print "Walkers generated: ",count
@@ -155,8 +160,8 @@ while R <= 100:
 
                 # Check perimeter sites
                 r_walker=radius(walker)
-
-                condition,cluster=check_perimeter(condition,walker,perimeter,cluster)
+	        if r_walker <= max(cluster_rad)+5:
+			condition,cluster=check_perimeter(condition,walker,perimeter,cluster,cluster_rad)
                 if condition == 'exile':
                         break
                 elif condition == 'hit':
