@@ -147,7 +147,7 @@ while R <= 40:
         #if condition == "exile" or condition == '':
         walker=rand_point_on_circle()
         condition=''
-        while condition != 'exile' or condition != 'hit':
+        while condition != 'hit':
                 rand_num=random.uniform(0,1)
                 if rand_num <=0.25:
                         walker[0]+=1
@@ -160,9 +160,9 @@ while R <= 40:
 
                 # Check perimeter sites
                 r_walker=radius(walker)
-	        if r_walker <= max(cluster_rad)+5 or r_walker >= out_of_bounds:
+	        if r_walker <= max(cluster_rad)+5:
 			condition,cluster=check_perimeter(condition,walker,perimeter,cluster,cluster_rad)
-                if condition == 'exile':
+                if r_walker > out_of_bounds:
                         break
                 elif condition == 'hit':
                         R=radius(walker)
