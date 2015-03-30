@@ -139,7 +139,7 @@ savefig("DLA_crystal1.pdf")
 plt.show()
 
 # Part b): Fractal dimensions:
-mass_radius=np.arange(0,110,10)
+mass_radius=np.arange(5,110,15)
 mass_count=[0]*len(mass_radius)
 for i in range(len(mass_radius)):
     for j in range(len(cluster_rad)):
@@ -151,14 +151,18 @@ def curvefit(radius,C,df):
     return C*(radius**df)
 
 mass=curvefit(mass_radius,2,1.5)
-
 popt,pcov=curve_fit(curvefit,mass_radius,mass_count)
+print "Constant,Fractal dimension:",popt
 
-print "Fractal dimension:",popt
+mass_analytic=curvefit(mass_radius,popt[0],popt[1])
 
 # Plotting fractal dimension relation:
-plt.plot(mass_radius,mass_count,'r*')
+plt.plot(mass_radius,mass_count,'r*',label="Raw data")
+plt.plot(mass_radius,mass_analytic,'k-',label="Fit curve")
+plt.legend()
 plt.xlabel("Radius of cluster")
 plt.ylabel("Number of walkers within radius, mass")
 plt.title("Fractal dimensionality of DLA cluster")
+plt.savefig("Fractal.pdf")
+plt.show()
 
