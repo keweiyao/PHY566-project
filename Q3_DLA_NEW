@@ -89,7 +89,7 @@ cluster_rad.append(0)
 # Loop over random walkers until the cluster radius, R, is start_radius length 
 R=0
 walker_count=0
-while R <= start_radius:
+while R <= 100:
         walker_count+=1
         print "Walkers generated: ",walker_count
 	# Generate random walker on circle
@@ -119,11 +119,6 @@ while R <= start_radius:
 		# Check if walker is out of bounds
 		if r_walker >= out_of_bounds:
                         break					# Break loop to generate new walker
-		# If walker hit cluster, then
-                #elif condition == 'hit':
-                 #       R=radius(walker)
-                  #      print "RADIUS=",R
-                   #     break
 
 
 # Plot cluster
@@ -139,7 +134,7 @@ savefig("DLA_crystal1.pdf")
 plt.show()
 
 # Part b): Fractal dimensions:
-mass_radius=np.arange(5,110,15)
+mass_radius=np.arange(5,105,5)
 mass_count=[0]*len(mass_radius)
 for i in range(len(mass_radius)):
     for j in range(len(cluster_rad)):
@@ -148,17 +143,19 @@ for i in range(len(mass_radius)):
             
 # Curve fit and function definition:
 def curvefit(radius,C,df):
-    return C*(radius**df)
+    return C+(np.log10(radius))*df
 
-mass=curvefit(mass_radius,2,1.5)
-popt,pcov=curve_fit(curvefit,mass_radius,mass_count)
+mass=curvefit(mass_radius,1,1.5)
+log_mass=np.log10(mass_count)
+popt,pcov=curve_fit(curvefit,mass_radius,log_mass)
 print "Constant,Fractal dimension:",popt
+log_radius=np.log10(mass_radius)
 
 mass_analytic=curvefit(mass_radius,popt[0],popt[1])
 
 # Plotting fractal dimension relation:
-plt.plot(mass_radius,mass_count,'r*',label="Raw data")
-plt.plot(mass_radius,mass_analytic,'k-',label="Fit curve")
+plt.plot(log_radius,log_mass,'r*',label="Raw data")
+plt.plot(log_radius,mass_analytic,'k-',label="Fit curve")
 plt.legend()
 plt.xlabel("Radius of cluster")
 plt.ylabel("Number of walkers within radius, mass")
