@@ -5,6 +5,7 @@ from pylab import *
 import numpy as np
 import random
 import math
+from scipy.optimize import curve_fit
 
 # Parameters of code
 start_radius=100	# Radius at which random walkers are released
@@ -136,4 +137,28 @@ plt.ylabel("Vertical Position [Arbitrary units]")
 plt.title("Cluster from DLA Method")
 savefig("DLA_crystal1.pdf")
 plt.show()
+
+# Part b): Fractal dimensions:
+mass_radius=np.arange(0,110,10)
+mass_count=[0]*len(mass_radius)
+for i in range(len(mass_radius)):
+    for j in range(len(cluster_rad)):
+        if cluster_rad[j]<=mass_radius[i]:
+            mass_count[i]=mass_count[i]+1
+            
+# Curve fit and function definition:
+def curvefit(radius,C,df):
+    return C*(radius**df)
+
+mass=curvefit(mass_radius,2,1.5)
+
+popt,pcov=curve_fit(curvefit,mass_radius,mass_count)
+
+print "Fractal dimension:",popt
+
+# Plotting fractal dimension relation:
+plt.plot(mass_radius,mass_count,'r*')
+plt.xlabel("Radius of cluster")
+plt.ylabel("Number of walkers within radius, mass")
+plt.title("Fractal dimensionality of DLA cluster")
 
