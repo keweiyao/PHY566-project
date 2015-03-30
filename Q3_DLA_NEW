@@ -7,185 +7,133 @@ import random
 import math
 
 # Parameters of code
-start_radius=100
-out_of_bounds=120
+start_radius=100	# Radius at which random walkers are released
+out_of_bounds=120	# Radius at which random walkers are considered to not reach cluster in sufficient amount of time (thrown out)
 
-# Define functions
-#def find_perimeter(cluster):
-#       perimeter=[]
-#       i_index=0
-#       for i in range(-start_radius,start_radius):
-#               #i_index=0
-#               j_index=0
-#               for j in range(-start_radius,start_radius):
-#                       #j_index=0
-#                       if cluster[i_index][j_index]==1:
-#                               #print "found origin"
-#                               #print "indices:",i_index,j_index
-#                               anew_site=np.zeros(2)
-#                               anew_site[0]=i_index+1
-#                               anew_site[1]=j_index
-#                               #print "new_site:",anew_site
-#                               if cluster[i_index+1][j_index] != 1:
-#                               #       print "cond1,new_site:",anew_site
-#                                       perimeter.append(anew_site)
-#                               #       print "perimeter:",perimeter
-#                               bnew_site=np.zeros(2)
-#                               bnew_site[0]=i_index-1
- #                               bnew_site[1]=j_index
-  #                              if cluster[i_index-1][j_index] != 1:
-#                               #       print "cond2,new_site:",bnew_site
-#                                       perimeter.append(bnew_site)
-#                               #       print "perimeter:",perimeter
-#                               cnew_site=np.zeros(2)
- #                               cnew_site[0]=i_index
- #                               cnew_site[1]=j_index+1
-  #                              if cluster[i_index][j_index+1] != 1:
-#                               #       print "cond3,new_site:",cnew_site
-#                                       perimeter.append(cnew_site)
-#                               #       print "perimeter:",perimeter
-#                       j_index+=1
-#               i_index+=1
-#       return perimeter
+############################## START OF FUNCTION DEFINITIONS ############################## 
 
-
-
+# Determine radius of walkers from origin 
 def radius(walker):
-#	print "radius of walker",math.sqrt((walker[0]-100)**2+(walker[1]-100)**2)
-	#return math.sqrt((walker[0]-100)**2+(walker[1]-100)**2)
 	return math.sqrt((walker[0])**2+(walker[1])**2)
 
+# Determine if walker has hit perimter of cluster; add to the cluster if hit; redefine perimeter
 def check_perimeter(condition,walker,perimeter,cluster,cluster_rad):
-	for i, per in enumerate(perimeter):
-        	#if walker[0] == per[0] and walker[1] == per[1]:
-                #if walker[0]+100 == per[0] and walker[1]+100 == per[1]:
-		if walker[0]+102 == per[0] and walker[1]+102 == per[1]:
-			cluster[per[0]][per[1]]=1
-                        perimeter.pop(i)
-			cluster_rad.append(r_walker)
-                        print "HIT (per[0],per[1]):",per[0],per[1]
-                        anew_site=np.zeros(2)
+	for i, per in enumerate(perimeter):						# Check through all perimeter sites
+		if walker[0]+102 == per[0] and walker[1]+102 == per[1]:			# Determine if walker coord == perimeter coord
+			cluster[per[0]][per[1]]=1					# If so add to cluster
+                        perimeter.pop(i)						# Remove the old perimeter point (which is now part of cluster)
+			cluster_rad.append(r_walker)					# Store radius of walker from origin
+                        
+			# Create new perimeter sites based on new cluster element
+			anew_site=np.zeros(2)						
                         anew_site[0]=per[0]+1
                         anew_site[1]=per[1]
-                        if cluster[per[0]+1][per[1]] != 1:
+                        if cluster[per[0]+1][per[1]] != 1:				# Not a perimeter site if cluster point occupies site
                                 perimeter.append(anew_site)
                         bnew_site=np.zeros(2)
                         bnew_site[0]=per[0]-1
                         bnew_site[1]=per[1]
-                        if cluster[per[0]-1][per[1]] != 1:
+                        if cluster[per[0]-1][per[1]] != 1:				# Not a perimeter site if cluster point occupies site
                                 perimeter.append(bnew_site)
                         cnew_site=np.zeros(2)
                         cnew_site[0]=per[0]
                         cnew_site[1]=per[1]+1
-                        if cluster[per[0]][per[1]+1] != 1:
+                        if cluster[per[0]][per[1]+1] != 1:				# Not a perimeter site if cluster point occupies site
                                 perimeter.append(cnew_site)
                         dnew_site=np.zeros(2)
                         dnew_site[0]=per[0]
                         dnew_site[1]=per[1]-1
-                        if cluster[per[0]][per[1]-1] != 1:
+                        if cluster[per[0]][per[1]-1] != 1:				# Not a perimeter site if cluster point occupies site
                                 perimeter.append(dnew_site)
-                        condition='hit'
-                        break
+                        condition='hit'							# Let main loop know walker has hit cluster, and needs new walker
+                        break								# No longer need to cycle through perimeter
 	return condition,cluster
 
+# Determine random point on a circle start_radius distance away from origin 
 def rand_point_on_circle():
-        x=round(random.uniform(-100,100),0)
-	#x=round(random.uniform(0,202),0)
-	y=round(math.sqrt(start_radius**2.0-x**2.0))
-        #y=round(math.sqrt(start_radius**2.0-(x-101)**2.0))
-	#print "x,y:",x,y
-	# coin toss for two y options:
+	x=round(random.uniform(-100,100),0)						# Generate random x value
+	y=round(math.sqrt(start_radius**2.0-x**2.0))					# Generate corresponding y value which satisfies radius=start_radius
+		
+	# y could be positive or negative, determine sign at random
         rand=random.uniform(0,1)
 	if rand <= 0.5:
 		y=-1*y
 	elif rand > 0.5:
 		y=1*y
-	print"x,y:",x,y
 
-        radius=math.sqrt(x**2+y**2)
-        #print "radius: ",radius
+	# Create walker with these x and y values
         walker=np.zeros(2)
         walker[0]=x
         walker[1]=y
         return walker
-#walker=rand_point_on_circle()
-#print "prime:", x_prime, y_prime
-#print walker
 
+############################## END OF FUNCTION DEFINITIONS ##############################
 
-##########
-
-#print "DECLARE VARIABLES"
-# Declare variables
+# Initialize cluster 2D array; 0=cluster point; 1=cluster point
 cluster=np.zeros((int(2*(start_radius)+3),int(2*(start_radius)+3)))
-#cluster[100][100]=1
-cluster[102][102]
-#cluster_x=[]
-#cluster_x.append(100)
-#cluster_y=[]
-#cluster_y.append(100)
-cluster_rad=[]
-cluster_rad.append(0)
-#print cluster
+cluster[102][102]=1
 
-
-# Loop over random walkers until the cluster radius, r, is 100 
-R=0
-
-#print "Going into perimeter:"
+# Initialize first four perimeter points
 perimeter=[]
 perimeter.append((102,101))
 perimeter.append((101,103))
 perimeter.append((101,102))
 perimeter.append((103,102))
-#perimeter.append((100,99))
-#perimeter.append((100,101))
-#perimeter.append((99,100))
-#perimeter.append((101,100))
-#perimeter=find_perimeter(cluster)
-#print perimeter
-count=0
-#print "Entering while loop...."
-while R <= 100:
-        count+=1
-        #perimeter=find_perimeter(cluster)
-        print "Walkers generated: ",count
-                #print "Radius R:",R
-        #if condition == "exile" or condition == '':
+
+# Initialize cluster radius variable; tells the radius of a cluster point from origin as it is added
+cluster_rad=[]
+cluster_rad.append(0)
+
+
+# Loop over random walkers until the cluster radius, R, is start_radius length 
+R=0
+walker_count=0
+while R <= start_radius:
+        walker_count+=1
+        print "Walkers generated: ",walker_count
+	# Generate random walker on circle
         walker=rand_point_on_circle()
-        condition=''
-        while condition != 'hit':
+        condition=''											# Initialize condition of walker ('hit' or not)
+        # Move walker until it hits cluster or is too far away to be considered a possible hit
+	while condition != 'hit':							
+		# Determine walker's single step direction 
                 rand_num=random.uniform(0,1)
                 if rand_num <=0.25:
-                        walker[0]+=1
-                elif rand_num > 0.25 and rand_num <= 0.50:
-                        walker[0]-=1
+                        walker[0]+=1				#right
+                elif rand_num > 0.25 and rand_num <= 0.50:	
+                        walker[0]-=1				#left
                 elif rand_num >0.50 and rand_num <= 0.75:
-                        walker[1]+=1
+                        walker[1]+=1				#up
                 elif rand_num >0.75:
-                        walker[1]-=1
-                # Check perimeter sites
-        #        print walker
+                        walker[1]-=1				#down
+        	# Determine radius of walker from origin
 		r_walker=radius(walker)
+		# If walker is close to the largest brance of the cluster then check to the perimeter sites, otherwise continue (saves time)
 		if r_walker <= max(cluster_rad)+5:
 			condition,cluster=check_perimeter(condition,walker,perimeter,cluster,cluster_rad)
+			if condition == 'hit':
+				R=radius(walker)
+                        	print "RADIUS=",R
+                        	break
+		# Check if walker is out of bounds
 		if r_walker >= out_of_bounds:
-                        break
-                elif condition == 'hit':
-                        R=radius(walker)
-                        print "RADIUS=",R
-                        break
+                        break					# Break loop to generate new walker
+		# If walker hit cluster, then
+                #elif condition == 'hit':
+                 #       R=radius(walker)
+                  #      print "RADIUS=",R
+                   #     break
 
 
-
-f=open("cluster_data.txt",'w')
-f.write('# Cluster Data')
-f.write(cluster)
-f.close()
+# Plot cluster
+np.savetxt("cluster_data.txt",cluster)
 cmap=matplotlib.colors.ListedColormap(['white','blue'])
 bounds=[-.5,.5,1.5]
 norm = matplotlib.colors.BoundaryNorm(bounds,cmap.N)
 img= plt.imshow(cluster,interpolation='nearest',cmap=cmap,norm=norm)
+plt.xlabel("Horizontal Position [Arbitrary units]")
+plt.ylabel("Vertical Position [Arbitrary units]")
+plt.title("Cluster from DLA Method")
 savefig("DLA_crystal1.pdf")
 plt.show()
 
