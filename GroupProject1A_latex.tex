@@ -1,0 +1,51 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{enumerate,amsmath,graphicx,float,epstopdf}
+\graphicspath{ {./} }
+\begin{document}
+
+\title{PHY566 Group Project 1 (A) \\ Random Walk, Diffusion, Cluster Growth}
+\date{\small April 3rd, 2015}
+\author{David Hicks\\ Weiyao Ke \\ Shagun Maheshwari \\ Fan Zhang}
+
+\maketitle
+
+\section{2D Random Walk}
+.............
+
+
+\section{Diffusion Equation}
+.............
+
+
+\section{Cluster Growth with the DLA Model}
+\subsection{Problem Outline}
+\indent
+\indent The random walk concept can also be used to model cluster growth.  In particular, there are two common types of cluster growth methods involving random walks.
+The first is known as the Eden Model.  In the Eden model, a seed particle is place in the center of our system and the all of the perimeter sites are identified.  The 
+random walk concept is used to randomly choose at which perimeter site a particle will be added.  This is process continues until the desired cluster size is attained.
+In this method, the cluster is typically compact with a few number of holes due to the nature of this growth model.  The Eden model grows clusters from the "center-out" 
+and is referred to as a "cancer model". 
+
+\indent The other common cluster growth is the diffusion limited aggregation (DLA) model.  Similar to the Eden model, the DLA model starts with a seep particle at 
+the center of our system; however, the added particle is randomly generated at a certain distance from the center of the system.  The particle must then perform 
+numerous random walks until the particle hits one of the perimeter sites of the central cluster.  The perimeter sites are updated and the procedure continues until
+the cluster is a specified size.  In contrast to the Eden model, the DLA model clusters are often extremely sparse and consist of many branches stemming from the 
+central cluster.
+
+\subsection{Solution}
+\indent
+\indent The growth of a cluster was simulated using the DLA model.  The proposed radius of the system is about 100 units.  A seed particle was placed in the center of 
+the system and for each iteration the intial position of a random walker at a radius of 100 was generated.  The random walk of this walker was determined using a 
+random number generator.  The directions up, down, left, and right were chosen depending on the random number between 0 and 1 (see Python code). The walker's random path
+continued until it hit the cluster's perimeter or until it traveled a certain radius away from the cluster.  If the walker traveled a certain distance away from the 
+cluster then the walker is said to not return to the cluster in a sufficiently short amount of time, so the walker is thrown out and a new one is generated.
+
+\indent The aformentioned procedure was carried out until the desired radius of 100 units was obtained.  A total of 10 clusters were grown using the DLA method.  The
+results are shown in the next section.
+
+\subsection{Results}  
+\indent RESULTS TO COME....
+
+
+
+\end{document}
