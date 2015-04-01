@@ -14,7 +14,47 @@
 
 
 \section{Diffusion Equation}
-.............
+\subsection{1D diffusion Equation Outline}
+\indent
+\indent The homogeneous 1D diffusion Equation reads,
+\begin{equation}
+	\frac{\partial f}{\partial t} = D \nabla^2 f.
+\end{equation}
+where $D$ is the diffusion constant. For a initial delta distribution $f(x, t = 0) = \delta(x)$, the time evolution of the diffusing density profile is solved by a expanding gaussian wave packet,
+
+\begin{eqnarray*}
+	f(x,t) &=& \frac{1}{\sqrt{2\pi D t}} \exp{(-\frac{x^2}{2Dt})}, \\
+	f(x, t \rightarrow 0^+) &=& \delta(x).
+\end{eqnarray*}
+
+Generally, the expectation value $<x^2(t)>$ at certain time $t$ of a gaussian distribution with a time dependent width $\sigma(t)$ is,
+\begin{eqnarray*}
+	<x^2(t)> = \int_{-\infty}^{+\infty} x^2 f(x,t) dx &=&  \int_{-\infty}^{\infty}  \frac{1}{\sqrt{2\pi \sigma^2(t)}} x^2 \exp{(-\frac{x^2}{2\sigma^2(t)})} dx, \\
+	& = & -\lim_{\beta\rightarrow 1}\frac{d}{d\beta}\int_{-\infty}^{\infty}  \sqrt{\frac{\sigma^2(t)}{\pi}} \exp{(-\beta \frac{x^2}{2\sigma^2(t)})} dx, \\
+	& = & -\lim_{\beta\rightarrow 1} 2\sigma^2(t)\frac{d}{d\beta}\sqrt{\beta}, \\
+	& = & \sigma^2(t). 
+\end{eqnarray*}
+As a result, we expect that the root mean square of the solution of the diffusion equation with an delta function like initial configuration grows like $Dt$ with the time evolution. 
+
+To verify this argument above, we solve the 1D diffusion equation numerically, fit the solution at several time step by gaussian wave packet and extract the time evolution of the root mean square $<x^2>$ as a function of $t$.
+
+\subsection{Algorithm}
+To solve the 1D diffusion numerical, we first discretise the partial differential with respect to time and space:
+\begin{eqnarray*}
+\frac{f_{n+1,i}-f_{n,i}}{\Delta t}  &=& D\frac{f_{n,(i+1)\mod N}+f_{n,(i-1)\mod N} - 2 f_{n,i}}{{\Delta x}^2},\\
+t &=& n \Delta t, \\
+x &=& i \Delta x.
+\end{eqnarray*}
+$N$ is the number of spatial grids, the $\mod$ function imposes a periodic boundary condition of the problem, which is equivalent to solve the diffusion equation on a 1D ring.
+
+This is then cast into a time evolution form of a time iteration:
+\begin{eqnarray*}
+f_{n+1,i} &=&  (1 - 2 \alpha) f_{n,i} + \alpha (f_{n, (i+1)\mod N}+f_{n, (i-1)\mod N}), \alpha = \frac{D\Delta t}{{\Delta x}^2},\\
+f_{0,j} &=& f_0(j\Delta x).
+\end{eqnarray*}
+where $f_0$ is the initial density distribution. Here we set $f_0$ zero except for a short interval resembling a delta function initial condition. The stability criterion for this method is given by $\alpha < 1/2$. This condition is always checked ahead of calling the solver. 
+
+\subsection{Results and Discussion}
 
 
 \section{Cluster Growth with the DLA Model}
