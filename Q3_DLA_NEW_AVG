@@ -52,15 +52,29 @@ def check_perimeter(condition,walker,perimeter,cluster,cluster_rad):
 
 # Determine random point on a circle start_radius distance away from origin 
 def rand_point_on_circle():
-	x=round(random.uniform(-100,100),0)						# Generate random x value
-	y=round(math.sqrt(start_radius**2.0-x**2.0))					# Generate corresponding y value which satisfies radius=start_radius
+	# Pick a random number to determine if x or y value is picked first
+	x_or_y=random.uniform(0,1)
+	if x_or_y <=0.5:
+		x=round(random.uniform(-100,100),0)						# Generate random x value
+		y=round(math.sqrt(start_radius**2.0-x**2.0))					# Generate corresponding y value which satisfies radius=start_radius
 		
-	# y could be positive or negative, determine sign at random
-        rand=random.uniform(0,1)
-	if rand <= 0.5:
-		y=-1*y
-	elif rand > 0.5:
-		y=1*y
+		# y could be positive or negative, determine sign at random
+        	rand=random.uniform(0,1)
+		if rand <= 0.5:
+			y=-1*y
+		elif rand > 0.5:
+			y=1*y
+	elif x_or_y > 0.5:
+                y=round(random.uniform(-100,100),0)                                             # Generate random y value
+                x=round(math.sqrt(start_radius**2.0-y**2.0))                                    # Generate corresponding x value which satisfies radius=start_radius
+
+                # x could be positive or negative, determine sign at random
+                rand=random.uniform(0,1)
+                if rand <= 0.5:
+                        x=-1*x
+                elif rand > 0.5:
+                        x=1*x
+
 
 	# Create walker with these x and y values
         walker=np.zeros(2)
@@ -77,8 +91,10 @@ def curvefit(radius,C,df):
 ############################## END OF FUNCTION DEFINITIONS ##############################
 
 # Loop over algorithm 10 times to generate a good data set
+all_cluster_rad=[]
 while_count=1
-while (while_count <= 10):
+while (while_count <= 3):
+#while (while_count <= 10):
 	# Initialize cluster 2D array; 0=cluster point; 1=cluster point
 	#cluster=np.zeros((int(2*(start_radius)+3),int(2*(start_radius)+3)))
 	#cluster[102][102]=1
@@ -142,7 +158,7 @@ while (while_count <= 10):
 	plt.xlabel("Horizontal Position [Arbitrary units]")
 	plt.ylabel("Vertical Position [Arbitrary units]")
 	plt.title("Cluster from DLA Method")
-	savefig("DLA_crystal_%i.pdf" %(while_count))
+	savefig("DLA_crystal_avg_%i.pdf" %(while_count))
 	#plt.show()
 
 	# Part b): Fractal dimensions:
@@ -173,8 +189,13 @@ while (while_count <= 10):
 	plt.xlabel("Radius of cluster")
 	plt.ylabel("Number of walkers within radius, mass")
 	plt.title("Fractal dimensionality of DLA cluster")
-	plt.savefig("Fractal_%i.pdf" %(while_count))
+	plt.savefig("Fractal_avg_%i.pdf" %(while_count))
 	#plt.show()
 
+	#TEST HERE
+	cluster_rad.sort()
+	all_cluster_rad.append(cluster_rad)	
+	print all_cluster_rad[while_count]
 	while_count+=1
 
+	
