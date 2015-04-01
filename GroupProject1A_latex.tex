@@ -10,7 +10,48 @@
 \maketitle
 
 \section{2D Random Walk}
-.............
+\subsection{Problem Outline}
+In one-dimensional random walk case, let the drunk man move $\pm 1$ in x-coordinate with equal probability at each time-step, repeat this process and average over multiple walkers, the result is the universal law of random walk. Under this condition, the average displacement after numerous steps is expected to be $0$. While the average of squared displacement follows the diffusion equation.
+\begin{eqnarray*}
+\langle x \rangle &=& 0 \\
+\langle x^2 \rangle &=& 2Dt
+\end{eqnarray*}
+Where, D is diffusion constant for the walk. Then, what will happen to 2D cases? \\
+
+\subsection{Algorithm}
+Similar to algorithm of 1D random walk cases, we first generate a random number to decide whether the drunk man will go upwards, leftwards, downwards, or rightwards, with equal probability. Then, repeat this walking process for drunk man for n steps, and average over $10\,000$ drunk men to gain the pattern of average displacement $\langle x \rangle$ and average squared displacement $\langle x^2 \rangle$. \\
+In addition, by checking the trend of average squared displacement from origin, we can also calculate the diffusion constant for 2D random walk from function $\langle r^2 \rangle = 2Dt$.
+
+\subsection{Results and Discussion}
+\subsubsection{average displacement in x-direction}
+After calculating using python, the value of average displacement $\langle x \rangle$ with respect to the number of time-steps n (ranging from $3$ to $100$) is plotted in Fig.~\ref{Fig:xavg}. \\
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.6\textwidth]{G:/duke/courses/PHY566/hw6/xavg.png}
+  \caption{Average displacement in x-direction with respect to the number of time-steps n.}
+  \label{Fig:xavg}
+\end{figure}
+It could be seen from the graph that, the average displacement fluctuates around the x-axis within a small range ($\pm 0.2$ step). In addition, the larger the number of time-steps, the more the fluctuation is. The pattern of average displacement $\langle x \rangle$ can be concluded to be $$\langle x \rangle \approx 0$$
+
+\subsubsection{average squared displacement in x-direction}
+In addition, we also plotted the graph of average squared displacement over number of time-steps n in Fig.~\ref{Fig:x2avg}. \\
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.6\textwidth]{G:/duke/courses/PHY566/hw6/x2avg.png}
+  \caption{Average squared displacement in x-direction with respect to the number of time-steps n.}
+  \label{Fig:x2avg}
+\end{figure}
+In the graph, the average squared displacement in x-direction increases with the number of time-steps n. According to the graph, its linearity can approximately be concluded to be $$\langle x^2 \rangle \approx n$$ Compared to its diffusion equation in x-direction $\langle x^2 \rangle = 2Dt$, the diffusion constant in x-direction is approximately $1/2$.
+
+\subsubsection{average squared displacement from origin}
+In this $2$-dimensional case, the random walker's displacement from origin is $r^2 = x^2 + y^2$, it also obeys the diffusion equation. The relationship between average squared displacement from origin and number of time-steps n is plotted in Fig.~\ref{Fig:r2avg}. \\
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.6\textwidth]{G:/duke/courses/PHY566/hw6/r2avg.png}
+  \caption{Average squared displacement from origin with respect to the number of time-steps n.}
+  \label{Fig:r2avg}
+\end{figure}
+From the plot, the average squared displacement from origin $\langle r^2 \rangle$ increases with the number of time-step n. From eye-measuring, their relationship can be approximated to be $$\langle r^2 \rangle \approx 2n$$ Thus, the diffusion constant for 2D displacement from origin is approximately $1$.
 
 
 \section{Diffusion Equation}
