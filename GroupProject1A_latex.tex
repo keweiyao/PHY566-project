@@ -23,7 +23,7 @@
 where $D$ is the diffusion constant. For a initial delta distribution $f(x, t = 0) = \delta(x)$, the time evolution of the diffusing density profile is solved by a expanding gaussian wave packet,
 
 \begin{eqnarray*}
-	f(x,t) &=& \frac{1}{\sqrt{2\pi D t}} \exp{(-\frac{x^2}{2Dt})}, \\
+	f(x,t) &=& \frac{1}{\sqrt{4\pi D t}} \exp{(-\frac{x^2}{4Dt})}, \\
 	f(x, t \rightarrow 0^+) &=& \delta(x).
 \end{eqnarray*}
 
@@ -34,7 +34,7 @@ Generally, the expectation value $<x^2(t)>$ at certain time $t$ of a gaussian di
 	& = & -\lim_{\beta\rightarrow 1} 2\sigma^2(t)\frac{d}{d\beta}\sqrt{\beta}, \\
 	& = & \sigma^2(t). 
 \end{eqnarray*}
-As a result, we expect that the root mean square of the solution of the diffusion equation with an delta function like initial configuration grows like $Dt$ with the time evolution. 
+As a result, we expect that the root mean square of the solution of the diffusion equation with an delta function like initial configuration grows like $2Dt$ with the time evolution. 
 
 To verify this argument above, we solve the 1D diffusion equation numerically, fit the solution at several time step by gaussian wave packet and extract the time evolution of the root mean square $<x^2>$ as a function of $t$.
 
@@ -55,6 +55,14 @@ f_{0,j} &=& f_0(j\Delta x).
 where $f_0$ is the initial density distribution. Here we set $f_0$ zero except for a short interval resembling a delta function initial condition. The stability criterion for this method is given by $\alpha < 1/2$. This condition is always checked ahead of calling the solver. 
 
 \subsection{Results and Discussion}
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width = \textwidth]{pics/diffusion_snapshot.jpeg}
+\caption{Five snapshots at $t = 0.2, 0.4, 0.6, 0.8, 1.0 t_{max}$. Solid curve is the calculated density profile; solid dots are gaussian fitting results with the quantity $\sigma(t)^2/t$ displayed. It can be seen that the ration $\sigma(t)^2/t$ approach the limit $2D = 4$ with the time evolution and it is almost a constant of time.}
+\label{default}
+\end{center}
+\end{figure}
+
 
 
 \section{Cluster Growth with the DLA Model}

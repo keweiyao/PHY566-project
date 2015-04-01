@@ -24,30 +24,31 @@ def solver(f0, D, dt, dx, t_max):
 
     return f, N_t, N_x
 
-x = np.linspace(-10,10,500)
+x = np.linspace(-8,8,100)
 F0 = np.abs(x)<0.3
+Dt = 0.002
 
-F, n_t, n_x = solver(F0, 2, 0.05, 0.5, 10)
+F, n_t, n_x = solver(F0, 2., Dt, (np.max(x)-np.min(x))*1./(len(x)-1), 1.0)
 if n_t>0:
     plt.figure(figsize = (7,7))
     for i in range(n_t):
         plt.clf()
-        plt.plot(x, F[i], color = [i*1./n_t,0.3,1.0 - i*1./n_t], linewidth = 3., label = "t = %f"%(0.05*i), alpha = 0.7)
+        plt.plot(x, F[i], color = [i*1./n_t,0.3,1.0 - i*1./n_t], linewidth = 3., label = "$t = %f$"%(Dt*i), alpha = 0.7)
         plt.xlabel("x")
         plt.ylabel("y")
         plt.legend(loc = "upper right")
         plt.axis([-5,5,0,np.max(F[0])])
         plt.pause(0.01)
     
-    x_sample = np.linspace(-3,3,21)
+    x_sample = np.linspace(-5,5,51)
     plt.figure(figsize = (7,7))
-    for i in [int(0.2*n_t),int(0.5*n_t),int(0.8*n_t)]:
-        plt.plot(x, F[i], '-', color = [i*1./n_t,0.3,1.0 - i*1./n_t], linewidth = 3, label = "t = %f"%(0.05*i), alpha = 0.7)
+    for i in [int(0.2*n_t),int(0.4*n_t),int(0.6*n_t),int(0.8*n_t),int(1.0*n_t)-1]:
+        plt.plot(x, F[i], '-', color = [i*1./n_t,0.3,1.0 - i*1./n_t], linewidth = 3, label = "$t = %f$"%(Dt*i), alpha = 0.7)
         init_param = [1,0,1]
         best_param, cov = curve_fit(gaussian, x, F[i], init_param)
-        plt.plot(x_sample, gaussian(x_sample, best_param[0], best_param[1], best_param[2]), 'o', color = [i*1./n_t,0.3,1.0 - i*1./n_t], label = "t = %f, fitted"%(0.05*i), alpha = 0.7)
+        plt.plot(x_sample, gaussian(x_sample, best_param[0], best_param[1], best_param[2]), 'o', color = [i*1./n_t,0.3,1.0 - i*1./n_t], label = "$fitted, \sigma^2(t)/t = %f$"%(best_param[0]**2/Dt/i), alpha = 0.7)
     plt.xlabel("x")
     plt.ylabel("y")
     plt.legend(loc = "upper right")
-    plt.axis([-5,5,0,np.max(F[0])])
+    plt.axis([-5,5,0,np.max(F[int(0.2*n_t)])])
     plt.show()
