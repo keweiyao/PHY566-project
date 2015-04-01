@@ -161,26 +161,45 @@ while (while_count <= 3):
 	#plt.show()
 
 	# Part b): Fractal dimensions:
-	if while_count==1:
-		mass_count=[0]*len(mass_radius)
 	mass_radius=np.arange(5,105,5)
+	mass_count=[0]*len(mass_radius)
+	if while_count==1:
+		mass_count_avg=[0]*len(mass_radius)
 	for i in range(len(mass_radius)):
     		for j in range(len(cluster_rad)):
         		if cluster_rad[j]<=mass_radius[i]:
             			mass_count[i]=mass_count[i]+1
-            			
+        	mass_count_avg[i]+=mass_count[i]
+        	
+        # Curve fit:
+        mass=curvefit(mass_radius,1,1.5)
+	log_mass=np.log10(mass_count)
+	popt,pcov=curve_fit(curvefit,mass_radius,log_mass)
+	print "Constant,Fractal dimension:",popt
+	log_radius=np.log10(mass_radius)
+    	
+    	mass_analytic=curvefit(mass_radius,popt[0],popt[1])
+
+	# Plotting fractal dimension relation:
+	plt.figure()
+	plt.plot(log_radius,log_mass,'r*',label="Raw data")
+	plt.plot(log_radius,mass_analytic,'k-',label="Fit curve")
+	plt.legend()
+	plt.xlabel("Radius of cluster")
+	plt.ylabel("Number of walkers within radius, mass")
+	plt.title("Fractal dimensionality of DLA cluster")
+	plt.savefig("Fractal_dimension_%i.pdf" %(while_count))
+	#plt.show()
+		
         while_count+=1    
         
-mass_count[:]=[i/10 for i in mass_count]
+mass_count_avg[:]=[i/10 for i in mass_count_avg]
 
-# Curve fit and function definition:
-def curvefit(radius,C,df):
-    	return C+(np.log10(radius))*df
-
+# Average Curve fit and function definition:
 mass=curvefit(mass_radius,1,1.5)
-log_mass=np.log10(mass_count)
+log_mass=np.log10(mass_count_avg)
 popt,pcov=curve_fit(curvefit,mass_radius,log_mass)
-print "Constant,Fractal dimension:",popt
+print "Constant,Avegrage fractal dimension:",popt
 log_radius=np.log10(mass_radius)
 
 mass_analytic=curvefit(mass_radius,popt[0],popt[1])
