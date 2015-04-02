@@ -1,6 +1,8 @@
 \documentclass[a4paper,12pt]{article}
 \usepackage{enumerate,amsmath,graphicx,float,epstopdf,subcaption}
 \graphicspath{ {./} }
+\usepackage{verbatim}
+
 \begin{document}
 
 \title{PHY566 Group Project 1 (A) \\ Random Walk, Diffusion, Cluster Growth}
@@ -26,7 +28,7 @@ In addition, by checking the trend of average squared displacement from origin, 
 \subsubsection{average displacement in x-direction}
 After calculating using python, the value of average displacement $\langle x \rangle$ with respect to the number of time-steps n (ranging from $3$ to $100$) is plotted in Fig.~\ref{Fig:xavg}. \\
 \begin{figure}[!htb]
-  \centering
+ \centering
   \includegraphics[width=0.6\textwidth]{G:/duke/courses/PHY566/hw6/xavg.png}
   \caption{Average displacement in x-direction with respect to the number of time-steps n.}
   \label{Fig:xavg}
@@ -46,12 +48,13 @@ In the graph, the average squared displacement in x-direction increases with the
 \subsubsection{average squared displacement from origin}
 In this $2$-dimensional case, the random walker's displacement from origin is $r^2 = x^2 + y^2$, it also obeys the diffusion equation. The relationship between average squared displacement from origin and number of time-steps n is plotted in Fig.~\ref{Fig:r2avg}. \\
 \begin{figure}[!htb]
-  \centering
+ \centering
   \includegraphics[width=0.6\textwidth]{G:/duke/courses/PHY566/hw6/r2avg.png}
-  \caption{Average squared displacement from origin with respect to the number of time-steps n.}
+ \caption{Average squared displacement from origin with respect to the number of time-steps n.}
   \label{Fig:r2avg}
 \end{figure}
 From the plot, the average squared displacement from origin $\langle r^2 \rangle$ increases with the number of time-step n. From eye-measuring, their relationship can be approximated to be $$\langle r^2 \rangle \approx 2n$$ Thus, the diffusion constant for 2D displacement from origin is approximately $1$.
+
 
 
 \section{Diffusion Equation}
@@ -96,11 +99,14 @@ f_{0,j} &=& f_0(j\Delta x).
 where $f_0$ is the initial density distribution. Here we set $f_0$ zero except for a short interval resembling a delta function initial condition. The stability criterion for this method is given by $\alpha < 1/2$. This condition is always checked ahead of calling the solver. 
 
 \subsection{Results and Discussion}
+The diffusion parameter is chosen to be $2.0$. The initial condition is a square wave with width $0.2$ and height $1$ centred at the origin. The width is far less than the boundary range $\pm x_{max} = \pm 8$, so the boundary effect can be neglected for a moderate evolution time scale $t_{max} = 1$. The spatial step is about 0.032 and the time step we used $\Delta t = 0.0001$ satisfies the stability criterion.
+
+Results of the time evolution of the density profile is displayed in Fig. (\ref{diffusion_pic_snapshots}). Five snapshots (solid lines) at $t = 0.2, 0.4, 0.6, 0.8, 1.0 t_{max}$ are taken to show the diffusive behaviour. Each snapshot profile is fitted by a gaussian function (dotted data) to extract the profile variance as a function of time. The variance $\sigma^2(t)$ is then normalised by time $t$ to verify the analytic formula obtained in the previous section $<x^2(t)> = 2Dt$. It can be seen that the ration $\sigma^2(t)/t$ gradually decreases to the theoretical value of $2D = 4.0$. The small difference is due to the finite width of the initial profile, which is assume to be a delta function in the analytic result. This tells us a diffusion equation evolves an initial profile of length scale $L$ to a gaussian distribution for $t = 1 \gg L^2/D = 0.08$.
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width = \textwidth]{pics/diffusion_snapshot.jpeg}
 \caption{Five snapshots at $t = 0.2, 0.4, 0.6, 0.8, 1.0 t_{max}$. Solid curve is the calculated density profile; solid dots are gaussian fitting results with the quantity $\sigma(t)^2/t$ displayed. It can be seen that the ration $\sigma(t)^2/t$ approach the limit $2D = 4$ with the time evolution and it is almost a constant of time.}
-\label{default}
+\label{diffusion_pic_snapshots}
 \end{center}
 \end{figure}
 
@@ -192,8 +198,6 @@ calculations, the masses of the ten clusters were averaged for each radius value
 \label{AvgFractalDimension}
 \end{center}
 \end{figure}
-
-
 
 \subsection{Results}  
 \indent RESULTS TO COME....
