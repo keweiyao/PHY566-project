@@ -135,26 +135,9 @@ cluster then the walker is said to not return to the cluster in a sufficiently s
 \indent The aformentioned procedure was carried out until the desired radius of 100 units was obtained.  A total of 10 clusters were grown using the DLA method.  The
 results are shown in the next section.
 
-\begin{figure}[htb]
-\centering
-	\begin{tabular}{@{}cc@{}}
-		\includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_1.pdf} &
-		\includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_2.pdf} \\
-		\includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_3.pdf} &
-		\includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_4.pdf} \\
-		\includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_5.pdf} &
-		\includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_6.pdf} \\
-		\includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_7.pdf} &
-		\includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_8.pdf} \\
-		\includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_9.pdf} &
-		\includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_10.pdf} \\
-	\end{tabular}
-	\caption{DLA cluster: Trial 1 to 10. The average number of walkers used was ....with a standard deviation of $\pm...$}
-	\label{DLAcluster}
-\end{figure}
-
 
 \indent The fractal dimension is a parameter that gives the distribution of "mass" of number of walkers in the cluster, as a function of radius
+<<<<<<< HEAD
 
 \begin{eqnarray}	
 	m = C r^{d_f} \\
@@ -162,6 +145,13 @@ results are shown in the next section.
 \end{eqnarray}\label{fractal dimension}
 
 
+=======
+\begin{align}
+m &= C r^{df} \\
+\log{m} &= C + df\log{r}
+\label{fractal dimension}
+\end{align}
+>>>>>>> b99deef101e1f0a27cf95a172ee5ea9e3da4a7e6
 Where, \\
 $m$ = mass or the number of walkers (each walker is given a unit mass);\\
 $C$ = constant of proportionality; \\
@@ -172,17 +162,52 @@ $d_f$ = fractal dimension of cluster \\
 A total of ten iterations were done to get ten clusters, and for each cluster, a log-log plot showing the distribution of mass with respect to radius, was generated. For greater accuracy in the fractal dimensionality
 calculations, the masses of the ten clusters were averaged for each radius value, and another log-log plot of the mass distribution was generated.
 
-\begin{figure}[htb]
+\subsection{Results}
+\vspace*{-.5cm}
+\begin{figure}[H]
+\centering
+        \begin{tabular}{@{}cc@{}}
+                \includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_1.pdf} &
+                \includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_2.pdf} \\
+                \includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_3.pdf} &
+                \includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_4.pdf} \\
+                \includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_5.pdf} &
+                \includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_6.pdf} \\
+                \includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_7.pdf} &
+                \includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_8.pdf} \\
+	\end{tabular}
+\end{figure}
+
+\begin{figure}[H]
+\vspace*{-0.3cm}
+\centering
+	\begin{tabular}{@{}cc@{}}
+                \includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_9.pdf} &
+                \includegraphics[width = 0.45\textwidth]{pics/DLA_crystal_final_10.pdf} \\
+        \end{tabular}
+        \caption{DLA cluster: Trial 1 to 10. The average number of walkers used was about $16,916$ with a standard deviation of $\pm 998$}
+        \label{DLAcluster}
+\end{figure}
+\vspace*{-0.8cm}
+\rule{13.5cm}{0.4pt}
+
+\begin{figure}[H]
+\vspace*{-0.4cm}
 \centering
 	\begin{tabular}{@{}cc@{}}
 		\includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_1.pdf} &
 		\includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_2.pdf} \\
 		\includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_3.pdf} &
 		\includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_4.pdf} \\
-		\includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_5.pdf} &
-		\includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_6.pdf} \\
-		\includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_7.pdf} &
-		\includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_8.pdf} \\
+                \includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_5.pdf} &
+                \includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_6.pdf} \\
+	\end{tabular}
+\end{figure}
+\begin{figure}[H]
+\centering
+        \begin{tabular}{@{}cc@{}}
+                \includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_7.pdf} &
+                \includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_8.pdf} \\
 		\includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_9.pdf} &
 		\includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_10.pdf} \\
 	\end{tabular}
@@ -190,16 +215,13 @@ calculations, the masses of the ten clusters were averaged for each radius value
 	\label{FractalDimension}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \begin{center}
 \includegraphics[width = \textwidth]{pics/Fractal_dimension_final_avg.pdf}
 \caption{The average mass over ten trials of cluster growth at different radii. The slope gives the average fractal dimension of the system, which is ...}
 \label{AvgFractalDimension}
 \end{center}
 \end{figure}
-
-\subsection{Results}  
-\indent RESULTS TO COME....
 
 
 

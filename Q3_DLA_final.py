@@ -52,15 +52,29 @@ def check_perimeter(condition,walker,perimeter,cluster,cluster_rad):
 
 # Determine random point on a circle start_radius distance away from origin 
 def rand_point_on_circle():
-	x=round(random.uniform(-100,100),0)						# Generate random x value
-	y=round(math.sqrt(start_radius**2.0-x**2.0))					# Generate corresponding y value which satisfies radius=start_radius
+	# Pick a random number to determine if x or y value is picked first
+	x_or_y=random.uniform(0,1)
+	if x_or_y <=0.5:
+		x=round(random.uniform(-100,100),0)						# Generate random x value
+		y=round(math.sqrt(start_radius**2.0-x**2.0))					# Generate corresponding y value which satisfies radius=start_radius
 		
-	# y could be positive or negative, determine sign at random
-        rand=random.uniform(0,1)
-	if rand <= 0.5:
-		y=-1*y
-	elif rand > 0.5:
-		y=1*y
+		# y could be positive or negative, determine sign at random
+        	rand=random.uniform(0,1)
+		if rand <= 0.5:
+			y=-1*y
+		elif rand > 0.5:
+			y=1*y
+	elif x_or_y > 0.5:
+                y=round(random.uniform(-100,100),0)                                             # Generate random y value
+                x=round(math.sqrt(start_radius**2.0-y**2.0))                                    # Generate corresponding x value which satisfies radius=start_radius
+
+                # x could be positive or negative, determine sign at random
+                rand=random.uniform(0,1)
+                if rand <= 0.5:
+                        x=-1*x
+                elif rand > 0.5:
+                        x=1*x
+
 
 	# Create walker with these x and y values
         walker=np.zeros(2)
@@ -69,15 +83,16 @@ def rand_point_on_circle():
         return walker
 
 # For part b) 
-# Curve fit and function definition:
-def curvefit(radius,C,df):
-	return C+(np.log10(radius))*df
+# Curve fit and function definition:						# mass = C*(radius)^df
+def curvefit(radius,C,df):							# where, C is the proportionality constant and 
+	return C+(np.log10(radius))*df						# df is the fractal dimension
 
 
 ############################## END OF FUNCTION DEFINITIONS ##############################
 
 # Loop over algorithm 10 times to generate a good data set
 while_count=1
+#while (while_count <= 3):
 while (while_count <= 10):
 	# Initialize cluster 2D array; 0=cluster point; 1=cluster point
 	#cluster=np.zeros((int(2*(start_radius)+3),int(2*(start_radius)+3)))
@@ -142,29 +157,29 @@ while (while_count <= 10):
 	plt.xlabel("Horizontal Position [Arbitrary units]")
 	plt.ylabel("Vertical Position [Arbitrary units]")
 	plt.title("Cluster from DLA Method")
-	savefig("DLA_crystal_%i.pdf" %(while_count))
+	savefig("DLA_crystal_final_%i.pdf" %(while_count))
 	#plt.show()
 
 	# Part b): Fractal dimensions:
-	mass_radius=np.arange(5,105,5)
-	mass_count=[0]*len(mass_radius)
+	mass_radius=np.arange(5,105,5)					# Array for radius at which mass is calculated
+	mass_count=[0]*len(mass_radius)					# Array to count the number of walkers inside the bounds of each radius array element 
+	if while_count==1:
+		mass_count_avg=[0]*len(mass_radius)			# Setting up the counts for the average mass values
 	for i in range(len(mass_radius)):
     		for j in range(len(cluster_rad)):
         		if cluster_rad[j]<=mass_radius[i]:
             			mass_count[i]=mass_count[i]+1
-            
-	# Curve fit and function definition:
-	def curvefit(radius,C,df):
-    		return C+(np.log10(radius))*df
-
-	mass=curvefit(mass_radius,1,1.5)
-	log_mass=np.log10(mass_count)
+        	mass_count_avg[i]+=mass_count[i]
+        	
+        # Curve fit:
+        mass=curvefit(mass_radius,1,1.5)				# Calculated values of mass from curve fit equation
+	log_mass=np.log10(mass_count)					# Taking log to the base 10 for mass
 	popt,pcov=curve_fit(curvefit,mass_radius,log_mass)
 	print "Constant,Fractal dimension:",popt
-	log_radius=np.log10(mass_radius)
-
-	mass_analytic=curvefit(mass_radius,popt[0],popt[1])
-
+	log_radius=np.log10(mass_radius)				# Taking log to the base 10 for radius
+    	
+    	mass_analytic=curvefit(mass_radius,popt[0],popt[1])		# Analytically calculated mass from the fit parameters obtained to get the "fit curve"
+									# already in log form as given by curvefit function
 	# Plotting fractal dimension relation:
 	plt.figure()
 	plt.plot(log_radius,log_mass,'r*',label="Raw data")
@@ -172,9 +187,39 @@ while (while_count <= 10):
 	plt.legend()
 	plt.xlabel("Radius of cluster")
 	plt.ylabel("Number of walkers within radius, mass")
-	plt.title("Fractal dimensionality of DLA cluster")
-	plt.savefig("Fractal_%i.pdf" %(while_count))
+	plt.title("Mass distribution of DLA cluster on a log-log plot")
+	plt.savefig("Fractal_dimension_final_%i.pdf" %(while_count))
 	#plt.show()
 
-	while_count+=1
+	print "mass_count:"
+	print mass_count
+	print "mass_count_avg"
+	print mass_count_avg		
+        while_count+=1    
+        
+mass_count_avg[:]=[i/10 for i in mass_count_avg]			# Getting average mass over 10 clusters
+print "Final mass_count_avg"
+print mass_count_avg
+
+# Average Curve fit and function definition:
+mass_avg=curvefit(mass_radius,1,1.5)
+log_mass_avg=np.log10(mass_count_avg)
+popt_avg,pcov_avg=curve_fit(curvefit,mass_radius,log_mass_avg)
+print "Constant,Avegrage fractal dimension:",popt_avg
+log_radius=np.log10(mass_radius)
+
+mass_analytic=curvefit(mass_radius,popt_avg[0],popt_avg[1])
+
+# Plotting fractal dimension relation:
+plt.figure()
+plt.plot(log_radius,log_mass_avg,'r*',label="Raw data")
+plt.plot(log_radius,mass_analytic,'k-',label="Fit curve")
+plt.legend()
+plt.xlabel("Radius of cluster")
+plt.ylabel("Number of walkers within radius, mass")
+plt.title("Fractal dimensionality of DLA cluster averaged over 10 clusters (log-log)")
+plt.savefig("Fractal_dimension_final_avg.pdf")
+#plt.show()
+
+	
 
