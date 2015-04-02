@@ -10,7 +10,6 @@
 \author{David Hicks\\ Weiyao Ke \\ Shagun Maheshwari \\ Fan Zhang}
 
 \maketitle
-
 \section{2D Random Walk}
 \subsection{Problem Outline}
 In one-dimensional random walk case, let the drunk man move $\pm 1$ in x-coordinate with equal probability at each time-step, repeat this process and average over multiple walkers, the result is the universal law of random walk. Under this condition, the average displacement after numerous steps is expected to be $0$. While the average of squared displacement follows the diffusion equation.
@@ -29,7 +28,7 @@ In addition, by checking the trend of average squared displacement from origin, 
 After calculating using python, the value of average displacement $\langle x \rangle$ with respect to the number of time-steps n (ranging from $3$ to $100$) is plotted in Fig.~\ref{Fig:xavg}. \\
 \begin{figure}[!htb]
  \centering
-  \includegraphics[width=0.6\textwidth]{G:/duke/courses/PHY566/hw6/xavg.png}
+  \includegraphics[width=0.6\textwidth]{pics/xavg.png}
   \caption{Average displacement in x-direction with respect to the number of time-steps n.}
   \label{Fig:xavg}
 \end{figure}
@@ -39,7 +38,7 @@ It could be seen from the graph that, the average displacement fluctuates around
 In addition, we also plotted the graph of average squared displacement over number of time-steps n in Fig.~\ref{Fig:x2avg}. \\
 \begin{figure}[!htb]
   \centering
-  \includegraphics[width=0.6\textwidth]{G:/duke/courses/PHY566/hw6/x2avg.png}
+  \includegraphics[width=0.6\textwidth]{pics/x2avg.png}
   \caption{Average squared displacement in x-direction with respect to the number of time-steps n.}
   \label{Fig:x2avg}
 \end{figure}
@@ -49,13 +48,11 @@ In the graph, the average squared displacement in x-direction increases with the
 In this $2$-dimensional case, the random walker's displacement from origin is $r^2 = x^2 + y^2$, it also obeys the diffusion equation. The relationship between average squared displacement from origin and number of time-steps n is plotted in Fig.~\ref{Fig:r2avg}. \\
 \begin{figure}[!htb]
  \centering
-  \includegraphics[width=0.6\textwidth]{G:/duke/courses/PHY566/hw6/r2avg.png}
+  \includegraphics[width=0.6\textwidth]{pics/r2avg.png}
  \caption{Average squared displacement from origin with respect to the number of time-steps n.}
   \label{Fig:r2avg}
 \end{figure}
 From the plot, the average squared displacement from origin $\langle r^2 \rangle$ increases with the number of time-step n. From eye-measuring, their relationship can be approximated to be $$\langle r^2 \rangle \approx 2n$$ Thus, the diffusion constant for 2D displacement from origin is approximately $1$.
-
-
 
 \section{Diffusion Equation}
 \subsection{1D diffusion Equation Outline}
@@ -158,16 +155,18 @@ results are shown in the next section.
 
 
 \indent The fractal dimension is a parameter that gives the distribution of "mass" of number of walkers in the cluster, as a function of radius
-\begin{equation}
-m = C r^{df} $$\\$$
-\log{m} = C + df\log{r}} $$\\$$
-\label{fractal dimension}
-\end{equation}
+
+\begin{eqnarray}	
+	m = C r^{d_f} \\
+	\log{m} = C + d_f\log{r}
+\end{eqnarray}\label{fractal dimension}
+
+
 Where, \\
-m = mass or the number of walkers (each walker is given a unit mass);\\
-C = constant of proportionality; \\
-r = radius of cluster; \\
-df = fractal dimension of cluster \\
+$m$ = mass or the number of walkers (each walker is given a unit mass);\\
+$C$ = constant of proportionality; \\
+$r$ = radius of cluster; \\
+$d_f$ = fractal dimension of cluster \\
 
 \indent When the log-log plot of mass Vs radius is plotted it comes to be a straight line, with the slope of the line giving the fractal dimension nd the y intercept giving the constant. 
 A total of ten iterations were done to get ten clusters, and for each cluster, a log-log plot showing the distribution of mass with respect to radius, was generated. For greater accuracy in the fractal dimensionality
