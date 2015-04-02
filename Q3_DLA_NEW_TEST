@@ -157,7 +157,7 @@ while (while_count <= 10):
 	plt.xlabel("Horizontal Position [Arbitrary units]")
 	plt.ylabel("Vertical Position [Arbitrary units]")
 	plt.title("Cluster from DLA Method")
-	savefig("DLA_crystal_test_%i.pdf" %(while_count))
+	savefig("DLA_crystal_final_%i.pdf" %(while_count))
 	#plt.show()
 
 	# Part b): Fractal dimensions:
@@ -188,12 +188,18 @@ while (while_count <= 10):
 	plt.xlabel("Radius of cluster")
 	plt.ylabel("Number of walkers within radius, mass")
 	plt.title("Mass distribution of DLA cluster on a log-log plot")
-	plt.savefig("Fractal_dimension_%i.pdf" %(while_count))
+	plt.savefig("Fractal_dimension_final_%i.pdf" %(while_count))
 	#plt.show()
-		
+
+	print "mass_count:"
+	print mass_count
+	print "mass_count_avg"
+	print mass_count_avg		
         while_count+=1    
         
 mass_count_avg[:]=[i/10 for i in mass_count_avg]			# Getting average mass over 10 clusters
+print "Final mass_count_avg"
+print mass_count_avg
 
 # Average Curve fit and function definition:
 mass_avg=curvefit(mass_radius,1,1.5)
@@ -212,7 +218,7 @@ plt.legend()
 plt.xlabel("Radius of cluster")
 plt.ylabel("Number of walkers within radius, mass")
 plt.title("Fractal dimensionality of DLA cluster averaged over 10 clusters (log-log)")
-plt.savefig("Fractal_dimension_avg.pdf")
+plt.savefig("Fractal_dimension_final_avg.pdf")
 #plt.show()
 
 	
