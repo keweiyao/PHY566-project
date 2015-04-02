@@ -24,7 +24,7 @@ Similar to algorithm of 1D random walk cases, we first generate a random number 
 In addition, by checking the trend of average squared displacement from origin, we can also calculate the diffusion constant for 2D random walk from function $\langle r^2 \rangle = 2Dt$.
 
 \subsection{Results and Discussion}
-\subsubsection{average displacement in x-direction}
+\subsubsection{Average displacement in x-direction}
 After calculating using python, the value of average displacement $\langle x \rangle$ with respect to the number of time-steps n (ranging from $3$ to $100$) is plotted in Fig.~\ref{Fig:xavg}. \\
 \begin{figure}[!htb]
  \centering
@@ -34,7 +34,7 @@ After calculating using python, the value of average displacement $\langle x \ra
 \end{figure}
 It could be seen from the graph that, the average displacement fluctuates around the x-axis within a small range ($\pm 0.2$ step). In addition, the larger the number of time-steps, the more the fluctuation is. The pattern of average displacement $\langle x \rangle$ can be concluded to be $$\langle x \rangle \approx 0$$
 
-\subsubsection{average squared displacement in x-direction}
+\subsubsection{Average squared displacement in x-direction}
 In addition, we also plotted the graph of average squared displacement over number of time-steps n in Fig.~\ref{Fig:x2avg}. \\
 \begin{figure}[!htb]
   \centering
@@ -44,7 +44,7 @@ In addition, we also plotted the graph of average squared displacement over numb
 \end{figure}
 In the graph, the average squared displacement in x-direction increases with the number of time-steps n. According to the graph, its linearity can approximately be concluded to be $$\langle x^2 \rangle \approx n$$ Compared to its diffusion equation in x-direction $\langle x^2 \rangle = 2Dt$, the diffusion constant in x-direction is approximately $1/2$.
 
-\subsubsection{average squared displacement from origin}
+\subsubsection{Average squared displacement from origin}
 In this $2$-dimensional case, the random walker's displacement from origin is $r^2 = x^2 + y^2$, it also obeys the diffusion equation. The relationship between average squared displacement from origin and number of time-steps n is plotted in Fig.~\ref{Fig:r2avg}. \\
 \begin{figure}[!htb]
  \centering
@@ -113,31 +113,32 @@ Results of the time evolution of the density profile is displayed in Fig. (\ref{
 \subsection{Problem Outline}
 \indent
 \indent The random walk concept can also be used to model cluster growth.  In particular, there are two common types of cluster growth methods involving random walks.
-The first is known as the Eden Model.  In the Eden model, a seed particle is place in the center of our system and the all of the perimeter sites are identified.  The 
-random walk concept is used to randomly choose at which perimeter site a particle will be added.  This is process continues until the desired cluster size is attained.
+The first is known as the Eden Model.  In the Eden model, a seed particle is placed in the center of our system and the all of the perimeter sites are identified.  The 
+random walk concept is used to randomly choose at which perimeter site a particle will be added.  This process continues until the desired cluster size is attained.
 In this method, the cluster is typically compact with a few number of holes due to the nature of this growth model.  The Eden model grows clusters from the "center-out" 
 and is referred to as a "cancer model". 
 
-\indent The other common cluster growth is the diffusion limited aggregation (DLA) model.  Similar to the Eden model, the DLA model starts with a seep particle at 
-the center of our system; however, the added particle is randomly generated at a certain distance from the center of the system.  The particle must then perform 
+\indent The other common cluster growth is the diffusion limited aggregation (DLA) model.  Similar to the Eden model, the DLA model starts with a seed particle at 
+the center of the system; however, the added particle is randomly generated at a certain distance from the center of the system.  The particle must then perform 
 numerous random walks until the particle hits one of the perimeter sites of the central cluster.  The perimeter sites are updated and the procedure continues until
 the cluster is a specified size.  In contrast to the Eden model, the DLA model clusters are often extremely sparse and consist of many branches stemming from the 
-central cluster.
+central cluster.  This geometry is obtained due to the "outside-in" nature of the growth model.
 
 \subsection{Solution}
 \indent
 \indent The growth of a cluster was simulated using the DLA model.  The proposed radius of the system is about 100 units.  A seed particle was placed in the center of 
 the system and for each iteration the intial position of a random walker at a radius of 100 was generated.  The random walk of this walker was determined using a 
-random number generator.  The directions up, down, left, and right were chosen depending on the random number between 0 and 1 (see Python code). The walker's random path
+random number generator.  The directions "up", "down", "left", and "right" were chosen depending on the random number between 0 and 1 (see Python code). The walker's random path
 continued until it hit the cluster's perimeter or until it traveled a certain radius away from the cluster.  If the walker traveled a certain distance away from the 
-cluster then the walker is said to not return to the cluster in a sufficiently short amount of time, so the walker is thrown out and a new one is generated.
+cluster then the walker is said to not return to the cluster in a sufficiently short amount of time. Therefore, the walker is thrown out and a new one is generated.
 
 \indent The aformentioned procedure was carried out until the desired radius of 100 units was obtained.  A total of 10 clusters were grown using the DLA method.  The
 results are shown in the next section.
 
 
-\indent The fractal dimension is a parameter that gives the distribution of "mass" of number of walkers in the cluster, as a function of radius
-<<<<<<< HEAD
+\indent The fractal dimension is a parameter that gives the distribution of "mass" of number of walkers in the cluster, as a function of radius. 
+The relation is as follows:
+
 
 \begin{eqnarray}	
 	m = C r^{d_f} \\
@@ -150,9 +151,9 @@ $C$ = constant of proportionality; \\
 $r$ = radius of cluster; \\
 $d_f$ = fractal dimension of cluster \\
 
-\indent When the log-log plot of mass Vs radius is plotted it comes to be a straight line, with the slope of the line giving the fractal dimension nd the y intercept giving the constant. 
-A total of ten iterations were done to get ten clusters, and for each cluster, a log-log plot showing the distribution of mass with respect to radius, was generated. For greater accuracy in the fractal dimensionality
-calculations, the masses of the ten clusters were averaged for each radius value, and another log-log plot of the mass distribution was generated.
+\indent When the log-log plot of mass Vs radius is plotted it comes to be a straight line, with the slope of the line giving the fractal dimension and the y intercept giving the constant of proportionality. 
+A total of ten iterations were done to get ten clusters, and for each cluster, a log-log plot showing the distribution of mass with respect to radius, was generated. For greater accuracy in the fractal dimension
+calculations, the masses of the ten clusters were averaged for each radius value, and another log-log plot of the cumulative mass distribution was generated.
 
 \subsection{Results}
 \vspace*{-.5cm}
@@ -203,14 +204,19 @@ calculations, the masses of the ten clusters were averaged for each radius value
 		\includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_9.pdf} &
 		\includegraphics[width = 0.45\textwidth]{pics/Fractal_dimension_final_10.pdf} \\
 	\end{tabular}
-	\caption{Mass distribution w.r.t radius: Trial 1 to 10. The average fractal dimension was $1.516$}
+	\caption{Mass distribution w.r.t radius: Trial 1 to 10. The average fractal dimension of the ten clusters was, $1.51498$ with a standard deviation of $\pm 0.0427$.}
 	\label{FractalDimension}
 \end{figure}
+
+\indent Fig.(\ref{FractalDimension}) shows the mass distribution plots of 10 trial clusters over increasing radii. The slopes of these graphs give the fractal dimensions of each cluster. Two averaged quantities were determined for the fractal dimension plots. 
+One average of the fractal dimension was found by simply averaging over the calculated slopes of each trial cluster. This average is $1.51498$ with a standard deviation of $\pm 0.0427$.
+The second averaged fractal dimension quantity was determined by summing all masses for a given radii and dividing by the total number of trial clusters. Then, the resulting data was fitted according to the mass radius distribution relation given by equation \ref{fractal dimension}. 
+The fractal dimension calculated from this method came out to be, $1.51685$, which is very similar to the first averaged quantity.
 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width = \textwidth]{pics/Fractal_dimension_final_avg.pdf}
-\caption{The average mass over ten trials of cluster growth at different radii. The slope gives the average fractal dimension of the system, which is ...}
+\caption{The average mass over ten trials of cluster growth at different radii. The slope gives the average fractal dimension of the system, which is $1.51685$}
 \label{AvgFractalDimension}
 \end{center}
 \end{figure}
